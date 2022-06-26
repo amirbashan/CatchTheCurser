@@ -1,9 +1,10 @@
-const game = document.getElementById('game');
+const gameBoard = document.getElementById('game');
 const start = document.getElementById('start');
 const score = document.getElementById('score');
-
+let cursorX, cursorY;
 let interval = 0;
 let points = 0;
+
 const updateInterval = (bool) => {
   if (bool) {
     points = points + 5;
@@ -12,6 +13,12 @@ const updateInterval = (bool) => {
   }
 };
 const getSpeed = () => Math.ceil(Math.random() * 100);
+
+gameBoard.addEventListener('mousemove', (e) => {
+  cursorX = e.clientX;
+  cursorY = e.clientY;
+});
+
 const chaser = new Pieces(document.getElementById('chaser'), '🔴', false, getSpeed(), updateInterval);
 const escaper = new Pieces(document.getElementById('escaper'), '🟩', true, getSpeed(), updateInterval);
 
@@ -24,14 +31,7 @@ start.addEventListener('click', () => {
   interval = setInterval(() => {
     scoreCounter += 1;
     score.innerText = scoreCounter + points;
-    chaser.movement();
-    escaper.movement();
+    chaser.movement(cursorX, cursorY);
+    escaper.movement(cursorX, cursorY);
   }, 1000);
-
-  //   game.addEventListener('mousemove', (e) => {
-  //     const x = e.clientX;
-  //     const y = e.clientY;
-  //     player.style.left = x + 'px';
-  //     player.style.top = y + 'px';
-  //   });
 });
