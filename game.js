@@ -1,42 +1,46 @@
 const gameBoard = document.getElementById('game');
-const start = document.getElementById('start');
+const startButton = document.getElementById('start');
 const score = document.getElementById('score');
-let cursorX, cursorY;
-let interval = 0;
-let points = 0;
+let cursorX, cursorY, gameInterval, points;
 
-const updateInterval = (bool) => {
-  if (bool) {
+const onCursorCollision = (isPieceGood) => {
+  if (isPieceGood) {
     points = points + 5;
   } else {
-    clearInterval(interval);
-    start.style.display = 'block';
-    start.innerText = `Game Over!\nClick here to try again`;
+    clearInterval(gameInterval);
+    startButton.style.display = 'block';
+    startButton.innerText = `Game Over!\nClick here to try again`;
   }
 };
-const getSpeed = () => Math.ceil(Math.random() * 100);
+const getSpeed = () => Math.ceil(Math.random() * 50) + 50;
 
-const chaser = new Pieces(document.getElementById('chaser'), '🔴', false, getSpeed(), updateInterval);
-const blocker = new Pieces(document.getElementById('blocker'), '⚠️', false, getSpeed(), updateInterval);
-const escaper = new Pieces(document.getElementById('escaper'), '🟩', true, getSpeed(), updateInterval);
+const chaser = new GamePiece(document.getElementById('chaser'), '🔴', false, getSpeed(), onCursorCollision);
+const blocker = new GamePiece(document.getElementById('blocker'), '⚠️', false, getSpeed(), onCursorCollision);
+const escaper = new GamePiece(document.getElementById('escaper'), '🟩', true, getSpeed(), onCursorCollision);
 
 gameBoard.addEventListener('mousemove', (e) => {
   cursorX = e.clientX;
   cursorY = e.clientY;
 });
 
-start.addEventListener('click', () => {
-  start.style.display = 'none';
-  chaser.startPiece();
-  escaper.startPiece();
-  blocker.startPiece();
+init = () => {
+  startButton.addEventListener('click', () => {
+    points = 0;
+    gameInterval = 0;
+    startButton.style.display = 'none';
+    chaser.startPiece();
+    escaper.startPiece();
+    blocker.startPiece();
 
-  let scoreCounter = 0;
-  interval = setInterval(() => {
-    scoreCounter += 1;
-    score.innerText = scoreCounter + points;
-    chaser.movementCursor(cursorX, cursorY);
-    blocker.movementCursor(cursorX, cursorY);
-    escaper.movementCursor(cursorX, cursorY);
-  }, 1000);
-});
+    let scoreCounter = 0;
+    gameInterval = setInterval(() => {
+      scoreCounter += 1;
+      score.innerText = scoreCounter + points;
+      chaser.movementCursor(cursorX, cursorY);
+      blocker.movementRandom(cursorX, cursorY);
+      escaper.movementCursor(cursorX, cursorY);
+    }, 100);
+  });
+};
+
+init();

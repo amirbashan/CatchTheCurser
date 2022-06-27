@@ -45,5 +45,5 @@ header {
   display: block;
   box-sizing: border-box;
   transform: translate(-50%, -50%);
-  transition: 1s;
+  transition: 0.5s;
 }
