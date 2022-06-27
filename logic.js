@@ -24,10 +24,6 @@ init = () => {
     cursorY = e.clientY;
   });
 
-  gameBoard.addEventListener('mouseleave', () => {
-    onCursorCollision(false);
-  });
-
   startButton.addEventListener('click', () => {
     points = 0;
     gameInterval = 0;
@@ -44,6 +40,10 @@ init = () => {
       blocker.unrelatedMovement(cursorX, cursorY);
       escaper.movementByCursor(cursorX, cursorY);
     }, 100);
+
+    gameBoard.addEventListener('mouseleave', () => {
+      onCursorCollision(false);
+    });
   });
 };
 
