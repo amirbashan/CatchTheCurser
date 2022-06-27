@@ -34,8 +34,8 @@ init = () => {
     blocker.startPiece();
 
     gameInterval = setInterval(() => {
-      scoreCounter += 1;
-      score.innerText = scoreCounter + points;
+      scoreCounter += 0.1;
+      score.innerText = (scoreCounter + points).toFixed(0);
       chaser.movementByCursor(cursorX, cursorY);
       blocker.unrelatedMovement(cursorX, cursorY);
       escaper.movementByCursor(cursorX, cursorY);
