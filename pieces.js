@@ -5,10 +5,7 @@ class GamePiece {
     this.isTypeGood = type;
     this.speed = speed;
     this.onCursorCollision = onCursorCollision;
-    this.randomVector = {
-      X: Math.random() > 0.5 ? 1 : (-1 * Math.floor(Math.random() * 100)) / 100,
-      Y: Math.random() > 0.5 ? 1 : (-1 * Math.floor(Math.random() * 100)) / 100
-    };
+    this.randomVector = Math.floor(Math.random() * 12) * 30 * 0.0174533;
   }
 
   startPiece() {
@@ -22,7 +19,7 @@ class GamePiece {
     this.element.addEventListener('mouseover', () => this.onHitTarget());
   }
 
-  movementCursor(cursorX, cursorY) {
+  movementByCursor(cursorX, cursorY) {
     this.moveByAxis('X', cursorX);
     this.moveByAxis('Y', cursorY);
   }
@@ -38,25 +35,22 @@ class GamePiece {
     const target = this.checkBoundary(shapeLocation + towardsOrAway, parent[heightOrWidth]);
     this.element.style[orientation] = target + 'px';
   }
-  movementRandom(axis) {
-    this.movementRandomByAxis('X');
-    this.movementRandomByAxis('Y');
+
+  unrelatedMovement() {
+    this.randomMovement('X');
+    this.randomMovement('Y');
   }
 
-  movementRandomByAxis(axis) {
+  randomMovement(axis) {
     const orientation = axis === 'Y' ? 'top' : 'left';
     const shapeLocation = parseInt(this.element.style[orientation].slice(0, -2));
-    const move = this.speed * this.randomVector[axis];
+    const move = axis === 'Y' ? this.speed * Math.sin(this.randomVector) : this.speed * Math.cos(this.randomVector);
     const heightOrWidth = axis === 'Y' ? 'innerHeight' : 'innerWidth';
     const target = this.checkBoundary(shapeLocation + move, parent[heightOrWidth]);
-
-
-    
     this.element.style[orientation] = target + 'px';
     const shapeSize = parseInt(this.element.style.fontSize.slice(0, -2));
     if (target == shapeSize / 2 || target == parent[heightOrWidth] - shapeSize) {
-      this.randomVector[axis] = Math.random() > 0.5 ? 1 : (-1 * Math.floor(Math.random() * 100)) / 100;
-      console.log(this.randomVector[axis]);
+      this.randomVector = Math.floor(Math.random() * 12) * 30 * 0.0174533;
     }
   }
 
