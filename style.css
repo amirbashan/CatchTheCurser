@@ -33,14 +33,17 @@ header {
 
 #start {
   cursor: pointer;
+  text-align: center;
 }
 
 #chaser,
-#escaper {
+#escaper,
+#blocker {
   position: absolute;
   bottom: 0;
   left: 0;
   display: block;
   box-sizing: border-box;
   transform: translate(-50%, -50%);
+  transition: 1s;
 }
