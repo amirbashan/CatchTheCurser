@@ -46,12 +46,15 @@ class GamePiece {
     const shapeLocation = parseInt(this.element.style[orientation].slice(0, -2));
     const move = axis === 'Y' ? this.speed * Math.sin(this.randomVector) : this.speed * Math.cos(this.randomVector);
     const heightOrWidth = axis === 'Y' ? 'innerHeight' : 'innerWidth';
-    const target = this.checkBoundary(shapeLocation + move, parent[heightOrWidth]);
-    this.element.style[orientation] = target + 'px';
     const shapeSize = parseInt(this.element.style.fontSize.slice(0, -2));
-    if (target == shapeSize / 2 || target == parent[heightOrWidth] - shapeSize) {
+    if (shapeLocation <= shapeSize / 2 || shapeLocation >= parent[heightOrWidth] - shapeSize) {
       this.randomVector = Math.floor(Math.random() * 12) * 30 * 0.0174533;
     }
+    const target = this.checkBoundary(shapeLocation + move, parent[heightOrWidth]);
+    this.element.style[orientation] = target + 'px';
+    // if (target == shapeSize / 2 || target == parent[heightOrWidth] - shapeSize) {
+    //   this.randomVector = Math.floor(Math.random() * 12) * 30 * 0.0174533;
+    // }
   }
 
   onHitTarget() {
