@@ -52,9 +52,6 @@ class GamePiece {
     }
     const target = this.checkBoundary(shapeLocation + move, parent[heightOrWidth]);
     this.element.style[orientation] = target + 'px';
-    // if (target == shapeSize / 2 || target == parent[heightOrWidth] - shapeSize) {
-    //   this.randomVector = Math.floor(Math.random() * 12) * 30 * 0.0174533;
-    // }
   }
 
   onHitTarget() {

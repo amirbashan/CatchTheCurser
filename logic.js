@@ -18,7 +18,9 @@ const chaser = new GamePiece(document.getElementById('chaser'), '🔴', false, g
 const blocker = new GamePiece(document.getElementById('blocker'), '⚠️', false, getSpeed(), onCursorCollision);
 const escaper = new GamePiece(document.getElementById('escaper'), '🟩', true, getSpeed(), onCursorCollision);
 
-init = () => {
+
+
+const init = () => {
   gameBoard.addEventListener('mousemove', (e) => {
     cursorX = e.clientX;
     cursorY = e.clientY;
